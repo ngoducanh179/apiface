@@ -23,7 +23,6 @@ class VideoInput extends Component {
       facingMode: null
     };
   }
-
   componentWillMount = async () => {
     await loadModels();
     this.setState({ faceMatcher: await createMatcher(JSON_PROFILE) });
@@ -73,10 +72,14 @@ class VideoInput extends Component {
       });
 
       if (!!this.state.descriptors && !!this.state.faceMatcher) {
+        console.log({ ...JSON_PROFILE, AnhNgo: { name: "anhngo", descriptors: this.state.descriptors } });
+
         let match = await this.state.descriptors.map(descriptor =>
           this.state.faceMatcher.findBestMatch(descriptor)
         );
         this.setState({ match });
+      } else {
+        // console.log(JSON_PROFILE);
       }
     }
   };
